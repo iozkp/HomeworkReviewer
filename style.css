@@ -1,0 +1,21 @@
+/* Base button style */
+.button {
+  font-size: 1rem;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  color: white;
+  background-color: black;
+  transition: background 0.3s, transform 0.2s;
+}
+
+/* When added to cart */
+.button.added {
+  background-color: green;
+}
+
+/* Optional hover/animation for a nicer effect */
+.button:hover {
+  transform: scale(1.05);
+}
