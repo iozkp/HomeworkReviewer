@@ -20,6 +20,7 @@ const students = [
 
 const teachers = ["Mack", "Kumaran", "Lukáš", "Tim"];
 
+
 //randomly assign students to teachers
 function assignStudentsToTeachers(students, teachers) {
   const assignments = {};
