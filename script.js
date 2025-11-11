@@ -20,54 +20,28 @@ const students = [
 
 const teachers = ["Mack", "Kumaran", "Lukáš", "Tim"];
 
-//randomly assign students to teachers
-function assignStudentsToTeachers(students, teachers) {
-  const assignments = {};
-  teachers.forEach((teacher) => {
-    assignments[teacher] = [];
-  });
+// Fair round-robin assignment
+function assignRoundRobin(students, teachers) {
+  const shuffledStudents = [...students].sort(() => Math.random() - 0.5);
+  const shuffledTeachers = [...teachers].sort(() => Math.random() - 0.5);
 
-  students.forEach((student) => {
-    const randomTeacher = teachers[Math.floor(Math.random() * teachers.length)];
-    assignments[randomTeacher].push(student);
-  });       
+  const assignments = {};
+  shuffledTeachers.forEach((teacher) => (assignments[teacher] = []));
+
+  shuffledStudents.forEach((student, i) => {
+    const teacher = shuffledTeachers[i % shuffledTeachers.length];
+    assignments[teacher].push(student);
+  });
 
   return assignments;
 }
-const assignments = assignStudentsToTeachers(students, teachers);
-console.log(assignments);
 
+// Create the result
+const result = assignRoundRobin(students, teachers);
 
-//sort students alphabetically
-const sortedStudents = [...students].sort();
-console.log(sortedStudents);
-//sort teachers by length of name
-const sortedTeachers = [...teachers].sort((a, b) => a.length - b.length);
-console.log(sortedTeachers);
-//shuffle students randomly 
-const shuffledStudents = [...students].sort(() => Math.random() - 0.5);
+// Convert to [{student, teacher}, ...] format using modern methods
+const pairs = Object.entries(result).flatMap(([teacher, students]) =>
+  students.map((student) => ({ student, teacher }))
+);
 
-console.log(shuffledStudents);
-
-//shuffle teachers randomly
-const shuffledTeachers = [...teachers].sort(() => Math.random() - 0.5);
-console.log(shuffledTeachers);
-
-
-//expected output:
-//
-// [
-//   {student: "s1", teacher : "t2"},
-//   {student: "s2", teacher : "t2"},
-//   {student: "s3", teacher : "t1"},
-// ] should be like this
-
-let result = [];
-for (let teacher in assignments) {
-  assignments[teacher].forEach(student => {
-    result.push({ student: student, teacher: teacher });
-  });
-}     
-
-console.log(result);
-  
+console.log(pairs);
